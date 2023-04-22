@@ -10,8 +10,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#BCC2CA",
   },
   text: { fontSize: 18, paddingBottom: 10 },
-
-  //CollectionScreen
   collectionContainer: {
     width: "100%",
     height: "55%",
@@ -69,6 +67,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingRight: 10,
   },
+  viewCard: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    height: "30%",
+    marginBottom: 36,
+  },
   paquets: {
     height: "8%",
     width: "70%",
@@ -104,6 +109,86 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#2B2E42",
     fontWeight: "bold",
+  },
+  rewardsButton: {
+    backgroundColor: "#2B2E42",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "5%",
+    width: "70%",
+    borderRadius: 18,
+    marginBottom: 16,
+  },
+  rewardsText: {
+    color: "#8D9AAE",
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  notificationRewards: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: "red",
+    borderRadius: 50,
+    width: 30,
+    height: 30,
+    marginTop: -22,
+    marginRight: -22,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#2B2E42",
+    backgroundColor: "#FFFF00",
+  },
+  notificationRewardsText: {
+    fontSize: 16,
+    color: "#2B2E42",
+    fontWeight: "bold",
+  },
+  popupBackground: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  popupContainer: {
+    height: "50%",
+    width: "97%",
+    borderWidth: 2,
+    borderColor: "white",
+  },
+  popupTitle: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+    backgroundColor: "#2B2E42",
+  },
+  popupRewardsContainer: {
+    height: "10%",
+    width: "70%",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 20,
+    backgroundColor: "#2B2E42",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  popupRewardsText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+  },
+  backgroundOverlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "black",
+    opacity: 0.5,
   },
 });
 
@@ -534,4 +619,47 @@ export const missionPopup = StyleSheet.create({
     color: "#34B458",
     fontSize: 13,
   },
+});
+
+export const connexion = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#2B2E42",
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+  label: {
+    alignSelf: "flex-start",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 5,
+    color: "white",
+  },
+  input: {
+    height: 40,
+    width: "100%",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+    color: "white",
+  },
+  button: {
+    backgroundColor: "#BCC2CA",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  title : {
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 24,
+    textAlign: "center",
+  }
 });

@@ -8,14 +8,14 @@ import Profil from "../components/Profil";
 import { getUsers, modifyUser } from "../utils/localeStorage";
 
 const Shop = ({ navigation }) => {
+  //Variable pour afficher la popup d'achat réussi ou non
   const [show, setShow] = useState(false);
+  //Variable contenant les informations de l'utilisateur
   const [user, setUser] = useState(null);
+  //Varibale indiquant si la page est en chargement ou non
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleClose = () => {
-    setShow(false);
-  };
-
+  //Récupération des données à l'ouverture de la page
   async function fetchData() {
     const users = await getUsers();
     setUser(users);
@@ -32,9 +32,12 @@ const Shop = ({ navigation }) => {
     }, [])
   );
 
+  //Fonction pour acheter des paquets selon le nombre et le prix
   async function buyPacks(prix, nbPacks) {
     const user = await getUsers();
+    //Vérification que l'utilisateur possède assez d'argent
     if (user.money >= prix) {
+      //Si c'est le cas, ajout des paquets et suppression de l'argent
       user.packs += nbPacks;
       user.money -= prix;
       setUser(user);
@@ -44,6 +47,7 @@ const Shop = ({ navigation }) => {
     return false;
   }
 
+  //Dans le cas où la page est en train de charger
   return isLoading ? (
     <View>
       <Text>Chargement</Text>
@@ -58,7 +62,9 @@ const Shop = ({ navigation }) => {
           points={user.points}
           name={user.name}
         />
-
+        {
+          //Contenu de la boutique
+        }
         <View style={shop.offersContainer}>
           <Text style={shop.offerText}>1 paquet </Text>
           <Text style={shop.offerText}>Prix : 120 </Text>
@@ -92,12 +98,15 @@ const Shop = ({ navigation }) => {
 
         <Text style={shop.boutiqueText}>Prochainement...</Text>
       </View>
+      {
+        //Popup de l'achat réussi
+      }
       <Modal visible={show} animationType="fade" transparent={true}>
         <View style={shop.modalContainer}>
           <View style={shop.popup}>
             <Text style={shop.title}>Achat réussi !</Text>
             <Text style={shop.message}>Merci pour votre achat.</Text>
-            <TouchableOpacity style={shop.button} onPress={handleClose}>
+            <TouchableOpacity style={shop.button} onPress={setShow(false)}>
               <Text style={shop.buttonText}>Fermer</Text>
             </TouchableOpacity>
           </View>

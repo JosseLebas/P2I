@@ -1,12 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  StyleSheet,
-  TextInput,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { TextInput, Text, View, TouchableOpacity } from "react-native";
 import {
   fillPilotes,
   fillCircuits,
@@ -22,6 +16,7 @@ import {
   recupNextGP,
   createUserTest,
 } from "../utils/localeStorage";
+import { connexion } from "../theme/styles";
 
 const Connexion = ({ navigation }) => {
   //Variables utiles pour le formulaire
@@ -30,7 +25,7 @@ const Connexion = ({ navigation }) => {
 
   //Fonction qui s'effectue à la création de l'utilisateur
   //Il faut donc remplir toute la BDD et créé l'utilisateur avec le mdp et le login choisi
-  const handleLogin = async () => {
+  const login = async () => {
     await resetPilotes();
     await resetCircuits();
     await resetTeams();
@@ -73,28 +68,14 @@ const Connexion = ({ navigation }) => {
 
   //Affichage du formulaire
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#2B2E42",
-        alignItems: "center",
-        justifyContent: "space-around",
-      }}
-    >
-      <Text
-        style={{
-          fontWeight: "bold",
-          color: "white",
-          fontSize: 24,
-          textAlign: "center",
-        }}
-      >
+    <View style={connexion.container}>
+      <Text style={connexion.title}>
         Choisissez un nom d'utilisateur et un mot de passe
       </Text>
       <View style={{ width: "70%" }}>
-        <Text style={styles.label}>Nom d'utilisateur</Text>
+        <Text style={connexion.label}>Nom d'utilisateur</Text>
         <TextInput
-          style={styles.input}
+          style={connexion.input}
           value={username}
           onChangeText={setUsername}
           placeholder="Entrez votre nom d'utilisateur"
@@ -103,9 +84,9 @@ const Connexion = ({ navigation }) => {
         />
       </View>
       <View style={{ width: "70%" }}>
-        <Text style={styles.label}>Mot de passe</Text>
+        <Text style={connexion.label}>Mot de passe</Text>
         <TextInput
-          style={styles.input}
+          style={connexion.input}
           value={password}
           onChangeText={setPassword}
           placeholder="Entrez votre mot de passe"
@@ -113,49 +94,11 @@ const Connexion = ({ navigation }) => {
           secureTextEntry={true}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Se connecter</Text>
+      <TouchableOpacity style={connexion.button} onPress={login}>
+        <Text style={connexion.buttonText}>Se connecter</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 export default Connexion;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    paddingHorizontal: 20,
-  },
-  label: {
-    alignSelf: "flex-start",
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "white",
-  },
-  input: {
-    height: 40,
-    width: "100%",
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    color: "white",
-  },
-  button: {
-    backgroundColor: "#BCC2CA",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});

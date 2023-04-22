@@ -46,8 +46,8 @@ export const openPack = async (setPackRewards, setUser) => {
       user.collectionTeam[randomId].copies += 1;
     }
   }
-  //Montant de pièces aléatoires
-  const money = Math.floor(Math.random() * 100);
+  //Montant de pièces aléatoires entre 5à et 100
+  const money = Math.floor(Math.random() * 51) + 50;
   user.money += money;
   //On enlève le paquet qui vient d'être ouvert
   user.packs -= 1;
@@ -65,6 +65,7 @@ export const openPack = async (setPackRewards, setUser) => {
 //détermination du nombre de paquet pour un grand prix donné
 const rewardsForATrack = (user, tracks, trackId) => {
   if (user != null) {
+    //On donne 10 points seulement pour la participation
     let packs = 0;
     let points = 10;
     //Vérification du premier choix de l'utilisateur sur ce Grand Prix, s'il est réussi on ajoute un paquet et les points correspondant
@@ -76,6 +77,7 @@ const rewardsForATrack = (user, tracks, trackId) => {
       )
     ) {
       packs += 1;
+      //Des points sont ajoutés selon le niveau de carte joué par l'utilisateur
       points +=
         piloteMissions[tracks[trackId].pilotMissionId[0] - 1].points +
         10 * (user.choices[trackId].secondChoice.level - 1);
@@ -108,6 +110,7 @@ const rewardsForATrack = (user, tracks, trackId) => {
     }
     //ajout dans ls informations de l'utilisateur
     user.choices[trackId].rewards = packs + 2;
+    //On indique que les récompenses ont été données pour ne pas les redonner
     user.choices[trackId].given = true;
     user.points += points;
     return user;

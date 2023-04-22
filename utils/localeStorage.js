@@ -13,13 +13,14 @@ const TEAM_KEY = "ASYNC_STORAGE_TEAM";
 const TEAM_MISSION_KEY = "ASYNC_STORAGE_TEAM_MISSION";
 const PILOTE_MISSION_KEY = "ASYNC_STORAGE_PILOTE_MISSION";
 
+//Pièces et copies requises pour améliorer une carte d'un certain niveau
 export const required = [
   { price: 100, copies: 3 },
   { price: 200, copies: 6 },
   { price: 400, copies: 10 },
 ];
 
-//Données inventées
+//Missions des équipes
 export const teamMissions = [
   {
     id: 1,
@@ -98,6 +99,7 @@ export const teamMissions = [
 ];
 
 export const piloteMissions = [
+  //Cette missions n'a pas été implémentée
   {
     id: 1,
     name: "Vers la lumière",
@@ -175,6 +177,7 @@ export const piloteMissions = [
       return false;
     },
   },
+  //Cette mission n'a pas été implémentée
   {
     id: 6,
     name: "Dans le rétro",
@@ -188,6 +191,7 @@ export const piloteMissions = [
 
 //BDD Pilotes
 
+//Pour stocker les pilotes passés en paramètre
 export const storePilotes = async (value) => {
   try {
     const jsonValue = JSON.stringify(value);
@@ -197,6 +201,7 @@ export const storePilotes = async (value) => {
   }
 };
 
+//Pour récpérer les pilotes de la BDD
 export const getPilote = async () => {
   try {
     const value = await AsyncStorage.getItem(PILOTE_KEY);
@@ -209,6 +214,7 @@ export const getPilote = async () => {
   }
 };
 
+//Pour récupérer un pilote selon son id
 export const getPiloteById = async (id) => {
   try {
     const value = await getPilote();
@@ -224,6 +230,7 @@ export const getPiloteById = async (id) => {
   }
 };
 
+//Pour récupérer un pilote selon l'id de son écurie
 export const getPilotesByConstructorId = async (id) => {
   try {
     const value = await getPilote();
@@ -241,6 +248,7 @@ export const getPilotesByConstructorId = async (id) => {
   }
 };
 
+//Suppression de tous les pilotes
 export const resetPilotes = async () => {
   try {
     await AsyncStorage.multiRemove([PILOTE_KEY]);
@@ -249,6 +257,7 @@ export const resetPilotes = async () => {
   }
 };
 
+//Remplissage des pilotes dans la BDD
 export const fillPilotes = async () => {
   if (getPilote()) {
     try {
@@ -262,7 +271,7 @@ export const fillPilotes = async () => {
   }
 };
 
-//BDD Pilotes
+//BDD Equipes
 
 export const storeTeams = async (value) => {
   try {
@@ -357,6 +366,7 @@ export const getCircuits = async () => {
   }
 };
 
+//Fonction pour récupérer le prochain Grand Prix
 export const recupNextGP = async () => {
   const circuits = await getCircuits();
   if (circuits == null) {
@@ -627,6 +637,7 @@ export const createUserTest = async () => {
   await storeUser(user);
 };
 
+//Modification de l'utilisateur dans la BDD
 export const modifyUser = async (value) => {
   resetUsers().then(storeUser(value));
 };

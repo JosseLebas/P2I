@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { Text, View, Modal, TouchableOpacity, ScrollView } from "react-native";
 import TimeLeft from "../components/TimeLeft";
 import Card from "../components/Card";
 import Carrousel from "../components/Carrousel";
@@ -23,6 +16,7 @@ import {
 } from "../utils/localeStorage";
 import { giveRewards } from "../utils/functions";
 import MissionPopup from "../components/MissionPopup";
+import styles from "../theme/styles";
 
 const Home = ({ navigation, route }) => {
   //Variable contenant la collection de pilotes de l'utilisateur
@@ -51,23 +45,27 @@ const Home = ({ navigation, route }) => {
     isNextGP: true,
   };
 
+  //Récupération de toutes les données à l'ouverture de la page
   useFocusEffect(
     React.useCallback(() => {
       async function fetchData() {
         const users = await getUsers();
+        // Si l'utilisateur ouvre l'application pour la première fois, il n'aura aucune donnée. Si c'est le cas il sera renvoyé vers la page de Connexion
         async function verifConnexion() {
+          await giveRewards();
+          //users = null;
           if (users == null) {
             navigation.navigate("Connexion");
           }
         }
         verifConnexion();
 
+        //Récupération des données
         if (users != null) {
           setUser(users);
           setPilotes(users.collectionPilote);
           setTeams(users.collectionTeam);
           setChoices(users.choices);
-          await giveRewards();
           setIsLoading(false);
         }
       }
@@ -106,6 +104,7 @@ const Home = ({ navigation, route }) => {
       updatedChoices[GP.round - 1].thirdChoice = newChoice;
     }
     user.choices = updatedChoices;
+    //Actualisation des données
     modifyUser(user);
     setModalVisible(false);
     setChoices(updatedChoices);
@@ -160,7 +159,7 @@ const Home = ({ navigation, route }) => {
     );
   }
 
-  //Affichage de la popup pour les choix, en fonction de quelle carte souhaite être modifiée
+  //Affichage de la popup pour les choix, en fonction de quelle carte l'utilisateur souhaite modifier
   function showPopup() {
     if (currentChoice == 1) {
       return showTeams();
@@ -183,7 +182,7 @@ const Home = ({ navigation, route }) => {
   }
 
   return isLoading ? (
-    // render a loading indicator
+    // Dans le cas où les données ne sont pas encore toutes récupérées
     <View>
       <Text>Chargement</Text>
     </View>
@@ -195,16 +194,19 @@ const Home = ({ navigation, route }) => {
       }
       <Text style={{ fontSize: 24, fontWeight: "bold" }}>
         {isNextGP ? "Prochain grand prix : " : null}
-        {GP ? GP.name : null}
+        {GP != null ? GP.name : null}
       </Text>
       <View style={styles.viewCard}>
         <Card
           setModalInfosVisible={setModalInfosVisible}
-          condition={GP ? teamMissions[GP.teamMissionId - 1].name : ""}
+          condition={GP != null ? teamMissions[GP.teamMissionId - 1].name : ""}
           bonus1={
+            //Vérification que les données de choix existent
             choices
-              ? choices[GP.round - 1].firstChoice
-                ? choices[GP.round - 1].firstChoice.level >= 2
+              ? //Vérification que des choix aient bien été faits
+                GP != null && choices[GP.round - 1].firstChoice
+                ? //Vérification du niveau de la carte pour adapter l'affichage
+                  choices[GP.round - 1].firstChoice.level >= 2
                   ? 3
                   : 2
                 : 1
@@ -212,7 +214,7 @@ const Home = ({ navigation, route }) => {
           }
           bonus2={
             choices
-              ? choices[GP.round - 1].firstChoice
+              ? GP != null && choices[GP.round - 1].firstChoice
                 ? choices[GP.round - 1].firstChoice.level >= 3
                   ? 3
                   : 2
@@ -221,18 +223,21 @@ const Home = ({ navigation, route }) => {
           }
           bonus3={
             choices
-              ? choices[GP.round - 1].firstChoice
+              ? GP != null && choices[GP.round - 1].firstChoice
                 ? choices[GP.round - 1].firstChoice.level >= 4
                   ? 3
                   : 2
                 : 1
               : 1
           }
-          pointsCondition={GP ? teamMissions[GP.teamMissionId - 1].points : ""}
+          pointsCondition={
+            GP != null ? teamMissions[GP.teamMissionId - 1].points : ""
+          }
           image={
+            //Adaptation de l'image en fonction des choix qui sont faits
             GP
               ? choices
-                ? choices[GP.round - 1].firstChoice
+                ? GP != null && choices[GP.round - 1].firstChoice
                   ? "https://media.formula1.com/content/dam/fom-website/teams/2023/" +
                     choices[GP.round - 1].firstChoice.name[0]
                       .toLowerCase()
@@ -255,10 +260,12 @@ const Home = ({ navigation, route }) => {
       <View style={styles.viewCard}>
         <Card
           setModalInfosVisible={setModalInfosVisible}
-          condition={GP ? piloteMissions[GP.pilotMissionId[0] - 1].name : ""}
+          condition={
+            GP != null ? piloteMissions[GP.pilotMissionId[0] - 1].name : ""
+          }
           bonus1={
             choices
-              ? choices[GP.round - 1].secondChoice
+              ? GP != null && choices[GP.round - 1].secondChoice
                 ? choices[GP.round - 1].secondChoice.level >= 2
                   ? 3
                   : 2
@@ -267,7 +274,7 @@ const Home = ({ navigation, route }) => {
           }
           bonus2={
             choices
-              ? choices[GP.round - 1].secondChoice
+              ? GP != null && choices[GP.round - 1].secondChoice
                 ? choices[GP.round - 1].secondChoice.level >= 3
                   ? 3
                   : 2
@@ -276,7 +283,7 @@ const Home = ({ navigation, route }) => {
           }
           bonus3={
             choices
-              ? choices[GP.round - 1].secondChoice
+              ? GP != null && choices[GP.round - 1].secondChoice
                 ? choices[GP.round - 1].secondChoice.level >= 4
                   ? 3
                   : 2
@@ -284,12 +291,12 @@ const Home = ({ navigation, route }) => {
               : 1
           }
           pointsCondition={
-            GP ? piloteMissions[GP.pilotMissionId[0] - 1].points : ""
+            GP != null ? piloteMissions[GP.pilotMissionId[0] - 1].points : ""
           }
           image={
             GP
               ? choices
-                ? choices[GP.round - 1].secondChoice
+                ? GP != null && choices[GP.round - 1].secondChoice
                   ? "https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/" +
                     choices[GP.round - 1].secondChoice.familyName[0]
                       .toLowerCase()
@@ -310,10 +317,12 @@ const Home = ({ navigation, route }) => {
         }
         <Card
           setModalInfosVisible={setModalInfosVisible}
-          condition={GP ? piloteMissions[GP.pilotMissionId[1] - 1].name : ""}
+          condition={
+            GP != null ? piloteMissions[GP.pilotMissionId[1] - 1].name : ""
+          }
           bonus1={
             choices
-              ? choices[GP.round - 1].thirdChoice
+              ? GP != null && choices[GP.round - 1].thirdChoice
                 ? choices[GP.round - 1].thirdChoice.level >= 2
                   ? 3
                   : 2
@@ -322,7 +331,7 @@ const Home = ({ navigation, route }) => {
           }
           bonus2={
             choices
-              ? choices[GP.round - 1].thirdChoice
+              ? GP != null && choices[GP.round - 1].thirdChoice
                 ? choices[GP.round - 1].thirdChoice.level >= 3
                   ? 3
                   : 2
@@ -331,7 +340,7 @@ const Home = ({ navigation, route }) => {
           }
           bonus3={
             choices
-              ? choices[GP.round - 1].thirdChoice
+              ? GP != null && choices[GP.round - 1].thirdChoice
                 ? choices[GP.round - 1].thirdChoice.level >= 4
                   ? 3
                   : 2
@@ -339,12 +348,12 @@ const Home = ({ navigation, route }) => {
               : 1
           }
           pointsCondition={
-            GP ? piloteMissions[GP.pilotMissionId[1] - 1].points : ""
+            GP != null ? piloteMissions[GP.pilotMissionId[1] - 1].points : ""
           }
           image={
             GP
               ? choices
-                ? choices[GP.round - 1].thirdChoice
+                ? GP != null && choices[GP.round - 1].thirdChoice
                   ? "https://media.formula1.com/content/dam/fom-website/drivers/2023Drivers/" +
                     choices[GP.round - 1].thirdChoice.familyName[0]
                       .toLowerCase()
@@ -376,54 +385,13 @@ const Home = ({ navigation, route }) => {
               ? setModalRewardsVisible(true)
               : null
           }
-          style={{
-            backgroundColor: "#2B2E42",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "5%",
-            width: "70%",
-            borderRadius: 18,
-            marginBottom: 16,
-          }}
+          style={styles.rewardsButton}
         >
-          <Text
-            style={{
-              color: "#8D9AAE",
-              textAlign: "center",
-              fontSize: 18,
-              fontWeight: "bold",
-            }}
-          >
-            Récupérer récompenses
-          </Text>
+          <Text style={styles.rewardsText}>Récupérer récompenses</Text>
           {choices[round - 1].given && !choices[round - 1].claimed ? (
-            <View
-              style={{
-                position: "absolute",
-                top: 10,
-                right: 10,
-                backgroundColor: "red",
-                borderRadius: 50,
-                width: 30,
-                height: 30,
-                marginTop: -22,
-                marginRight: -22,
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderColor: "#2B2E42",
-                backgroundColor: "#FFFF00",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 16,
-                  color: "#2B2E42",
-                  fontWeight: "bold",
-                }}
-              >
-                !
-              </Text>
+            //Notification dans le cas où l'utilisateur possède au moins un paquet
+            <View style={styles.notificationRewards}>
+              <Text style={styles.notificationRewardsText}>!</Text>
             </View>
           ) : null}
         </TouchableOpacity>
@@ -438,35 +406,13 @@ const Home = ({ navigation, route }) => {
         onRequestClose={() => setModalVisible(false)}
         transparent={true}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
+        <View style={styles.popupBackground}>
           <TouchableOpacity
             style={styles.backgroundOverlay}
             onPress={() => setModalVisible(false)}
           />
-          <View
-            style={{
-              height: "50%",
-              width: "97%",
-              borderWidth: 2,
-              borderColor: "white",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 32,
-                fontWeight: "bold",
-                color: "white",
-                textAlign: "center",
-                backgroundColor: "#2B2E42",
-              }}
-            >
+          <View style={styles.popupContainer}>
+            <Text style={styles.popupTitle}>
               {currentChoice == 1
                 ? "Choisissez une écurie"
                 : "Choisissez un pilote"}
@@ -498,25 +444,9 @@ const Home = ({ navigation, route }) => {
           />
           <TouchableOpacity
             onPress={() => recupRewards()}
-            style={{
-              height: "10%",
-              width: "70%",
-              borderWidth: 2,
-              borderColor: "white",
-              borderRadius: 20,
-              backgroundColor: "#2B2E42",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
+            style={styles.popupRewardsContainer}
           >
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: "bold",
-                color: "white",
-                textAlign: "center",
-              }}
-            >
+            <Text style={styles.popupRewardsText}>
               Vous avez obtenu {choices ? choices[round - 1].rewards : "/"}{" "}
               paquets
             </Text>
@@ -525,62 +455,32 @@ const Home = ({ navigation, route }) => {
       </Modal>
       <MissionPopup
         missionTitle={
-          currentChoice == 1
-            ? teamMissions[GP.teamMissionId - 1].name
-            : piloteMissions[GP.pilotMissionId[currentChoice - 2] - 1].name
+          GP != null
+            ? currentChoice == 1
+              ? teamMissions[GP.teamMissionId - 1].name
+              : piloteMissions[GP.pilotMissionId[currentChoice - 2] - 1].name
+            : null
         }
         missionDescription={
-          currentChoice == 1
-            ? teamMissions[GP.teamMissionId - 1].description
-            : piloteMissions[GP.pilotMissionId[currentChoice - 2] - 1]
-                .description
+          GP != null
+            ? currentChoice == 1
+              ? teamMissions[GP.teamMissionId - 1].description
+              : piloteMissions[GP.pilotMissionId[currentChoice - 2] - 1]
+                  .description
+            : null
         }
         setModalInfosVisible={setModalInfosVisible}
         modalInfosVisible={modalInfosVisible}
         points={
-          currentChoice == 1
-            ? teamMissions[GP.teamMissionId - 1].points
-            : piloteMissions[GP.pilotMissionId[currentChoice - 2] - 1].points
+          GP != null
+            ? currentChoice == 1
+              ? teamMissions[GP.teamMissionId - 1].points
+              : piloteMissions[GP.pilotMissionId[currentChoice - 2] - 1].points
+            : null
         }
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#BCC2CA",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  viewCard: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    height: "30%",
-    marginBottom: 36,
-  },
-  collection: {
-    height: "100%",
-    width: "97%",
-    backgroundColor: "#2B2E42",
-    borderWidth: 2,
-    borderColor: "#2B2E42",
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingRight: 10,
-  },
-  backgroundOverlay: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "black",
-    opacity: 0.5,
-  },
-});
 
 export default Home;

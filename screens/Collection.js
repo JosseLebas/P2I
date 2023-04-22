@@ -33,6 +33,7 @@ const Collection = ({ navigation }) => {
   const [modalUpgradeVisible, setModalUpgradeVisible] = useState(false);
   //La carte qui sera affichée pour être améliorée
   const [card, setCard] = useState(null);
+  //Indique si la page est en chargement ou non
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchPilotes() {
@@ -45,6 +46,7 @@ const Collection = ({ navigation }) => {
     return users.collectionTeam;
   }
 
+  //Récupération des données
   async function fetchData() {
     const data = await fetchPilotes();
     const teams = await fetchTeams();
@@ -103,11 +105,14 @@ const Collection = ({ navigation }) => {
 
   //Fonction pour améliorer une carte
   async function upgradeCard(item) {
+    //On vérifie que la carte ne soit pas déjà au niveau max
     if (item.level < 4) {
+      //On vérifie si l'amélioration concerne un pilote ou une écurie
       if (activeTab) {
+        //On retrouve quelle carte est améliorée
         for (let i = 0; i < user.collectionPilote.length; i++) {
           if (user.collectionPilote[i].id == item.id) {
-            //Actualisation de item pour l'affichage
+            //Actualisation de item pour l'affichage et amélioration de la carte
             const updatedUser = user;
             updatedUser.collectionPilote[i].copies -=
               required[item.level - 1].copies;
@@ -121,6 +126,7 @@ const Collection = ({ navigation }) => {
           }
         }
       } else {
+        //Code plus ou moins similaire pour une carte d'écurie
         for (let i = 0; i < user.collectionTeam.length; i++) {
           if (user.collectionTeam[i].id == item.id) {
             //Actualisation de item pour l'affichage
