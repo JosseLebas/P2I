@@ -15,7 +15,6 @@ import TeamCard from "../components/TeamCard";
 import Profil from "../components/Profil";
 import { getUsers, required, modifyUser } from "../utils/localeStorage";
 import { openPack } from "../utils/functions";
-import { Ionicons } from "@expo/vector-icons";
 
 const Collection = ({ navigation }) => {
   //Pour savoir quel contenu sera affiché (pilotes ou équipes)

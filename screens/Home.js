@@ -96,7 +96,7 @@ const Home = ({ navigation, route }) => {
   }, [user]);
 
   //Enregistrement des choix de l'utilisateur
-  function changeChoice(choice, newChoice) {
+  async function changeChoice(choice, newChoice) {
     const updatedChoices = [...choices];
     if (choice == 1) {
       updatedChoices[GP.round - 1].firstChoice = newChoice;
@@ -105,6 +105,8 @@ const Home = ({ navigation, route }) => {
     } else {
       updatedChoices[GP.round - 1].thirdChoice = newChoice;
     }
+    user.choices = updatedChoices;
+    modifyUser(user);
     setModalVisible(false);
     setChoices(updatedChoices);
   }
@@ -117,7 +119,7 @@ const Home = ({ navigation, route }) => {
           {teams.map((item) => {
             return (
               <TouchableOpacity
-                onPress={() => changeChoice(1, item)}
+                onPress={async () => await changeChoice(1, item)}
                 key={item.id}
               >
                 <TeamCard
@@ -141,7 +143,7 @@ const Home = ({ navigation, route }) => {
           {pilotes.map((item) => {
             return (
               <TouchableOpacity
-                onPress={() => changeChoice(choice, item)}
+                onPress={async () => await changeChoice(choice, item)}
                 key={item.id}
               >
                 <PiloteCard
