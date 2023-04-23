@@ -8,7 +8,7 @@ import {
   Modal,
   Image,
 } from "react-native";
-import styles from "../theme/styles";
+import styles, { collection } from "../theme/styles";
 import Carrousel from "../components/Carrousel";
 import PiloteCard from "../components/PiloteCard";
 import TeamCard from "../components/TeamCard";
@@ -152,49 +152,17 @@ const Collection = ({ navigation }) => {
     }
     if (activeTab) {
       return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={collection.screenPopup}>
           <TouchableOpacity
             onPress={() => setModalUpgradeVisible(false)}
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: "black",
-              opacity: 0.5,
-            }}
+            style={collection.backButton}
           />
-          <View
-            style={{
-              height: "25%",
-              width: "35%",
-              borderWidth: 2,
-              borderColor: "white",
-              backgroundColor: "#BCC2CA",
-              justifyContent: "space-around",
-              alignItems: "center",
-            }}
-          >
+          <View style={collection.popupUpgradeContainer}>
             {item.level < 4 &&
             item.copies >= required[item.level - 1].copies &&
             user.money >= required[item.level - 1].price ? (
               <TouchableOpacity
-                style={{
-                  backgroundColor: "green",
-                  marginTop: 12,
-                  width: "80%",
-                  height: "20%",
-                  borderRadius: 20,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                style={collection.upgradeButton}
                 onPress={async () => upgradeCard(item)}
               >
                 <Text style={{ fontWeight: "bold", color: "white" }}>
@@ -230,49 +198,17 @@ const Collection = ({ navigation }) => {
       );
     } else {
       return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={collection.screenPopup}>
           <TouchableOpacity
             onPress={() => setModalUpgradeVisible(false)}
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: "black",
-              opacity: 0.5,
-            }}
+            style={collection.backButton}
           />
-          <View
-            style={{
-              height: "25%",
-              width: "50%",
-              borderWidth: 2,
-              borderColor: "white",
-              backgroundColor: "#BCC2CA",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
+          <View style={popupUpgradeContainerTeams}>
             {item.level < 4 &&
             item.copies >= required[item.level - 1].copies &&
             user.money >= required[item.level - 1].price ? (
               <TouchableOpacity
-                style={{
-                  backgroundColor: "green",
-                  marginTop: 12,
-                  width: "80%",
-                  height: "20%",
-                  borderRadius: 20,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
+                style={collection.upgradeButton}
                 onPress={async () => upgradeCard(item)}
               >
                 <Text style={{ fontWeight: "bold", color: "white" }}>
@@ -418,14 +354,7 @@ const Collection = ({ navigation }) => {
         }}
         transparent={true}
       >
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
+        <View style={collection.popupOpenPacks}>
           {
             //Pour permettre à l'utilisateur de quitter la popup en cliquant à côté
           }
@@ -435,27 +364,9 @@ const Collection = ({ navigation }) => {
               setPackRewards(null);
               await fetchData();
             }}
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: "black",
-              opacity: 0.5,
-            }}
+            style={collection.backButton}
           />
-          <View
-            style={{
-              height: "70%",
-              width: "97%",
-              borderWidth: 2,
-              borderColor: "white",
-              backgroundColor: "#BCC2CA",
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}
-          >
+          <View style={collection.popupOpenPackContainer}>
             {
               //Affichage des récompenses dans le paquet qui vient d'être ouvert
             }
@@ -542,16 +453,7 @@ const Collection = ({ navigation }) => {
                   await openPack(setPackRewards, setUser);
                 }
               }}
-              style={{
-                height: "10%",
-                width: "50%",
-                backgroundColor: "#2B2E42",
-                borderRadius: 5,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 12,
-                marginBottom: 40,
-              }}
+              style={collection.openPackButton}
             >
               <Text style={styles.paquetsText}>Ouvrir</Text>
               {user != null && user.packs > 0 && (

@@ -5,7 +5,9 @@ import { getCircuits } from "../utils/localeStorage";
 import { timeLeft } from "../theme/styles";
 
 const TimeLeft = () => {
+  //Pour avoir la date du jour
   const [date, setDate] = useState(new Date());
+  //Pour avoir la date du prochain Grand Prix
   const [nextDate, setNextDate] = useState(new Date());
 
   const recupNextGP = async () => {
@@ -28,6 +30,7 @@ const TimeLeft = () => {
     }, [])
   );
 
+  //Convertir la date en jours et en heures
   function convertHoursToDaysAndHours(hours) {
     const days = Math.floor(hours / 24);
     const remainingHours = (hours % 24).toFixed(1);

@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image } from "react-native";
 import { piloteCard } from "../theme/styles";
 
 const PiloteCard = ({ level, nationality, name, number }) => {
+  //Code pour chaque nationalité tuiles pour les url 
   const nationalityToCountryCode = {
     French: "fr",
     Spanish: "es",
@@ -22,6 +23,7 @@ const PiloteCard = ({ level, nationality, name, number }) => {
     Chinese: "cn",
   };
 
+  //Couleur des cartes sselon leur niveau
   const levelToColor = {
     1: "#AAAAAA",
     2: "#81D3F8",

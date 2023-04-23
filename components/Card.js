@@ -18,6 +18,7 @@ const Card = ({
   isNextGP,
   setModalInfosVisible,
 }) => {
+  //Affiche les bonus en fonction du niveau de la carte
   const afficheBonus = (type) => {
     if (type == 1) {
       return card.gris;
@@ -28,6 +29,7 @@ const Card = ({
     }
   };
 
+  //Lancement de la popup pour faire les choix
   const afficheModal = () => {
     if (modalVisible) {
       setModalVisible(false);
@@ -40,6 +42,9 @@ const Card = ({
   return (
     <View style={card.view}>
       <View style={card.container}>
+        {
+          //La partie haute de la carte est cliquable pour faire un choix
+        }
         <TouchableOpacity
           onPress={() => (isNextGP ? afficheModal() : null)}
           style={card.pilote}
@@ -56,10 +61,15 @@ const Card = ({
             <Text style={[card.text, card.plusText]}>+</Text>
           )}
         </TouchableOpacity>
+        {
+          //Le nom de la mission est cliquable pour savoir en quoi la mission consiste
+        }
         <TouchableOpacity
           style={card.condition}
-          onPress={() => {setCurrentChoice(choice)
-            setModalInfosVisible(true)}}
+          onPress={() => {
+            setCurrentChoice(choice);
+            setModalInfosVisible(true);
+          }}
         >
           <Text style={[card.text, card.conditionText]}>{condition}</Text>
           <View style={card.ellipse}>
@@ -72,6 +82,9 @@ const Card = ({
             />
           </View>
         </TouchableOpacity>
+        {
+          //Affichage des bonus activés ou non
+        }
         <View style={card.containerCircles}>
           <View style={[card.cercle, afficheBonus(bonus1)]}>
             <FontAwesome

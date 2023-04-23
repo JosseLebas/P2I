@@ -13,6 +13,9 @@ const HomeStackNavigator = () => {
       screenOptions={{ headerShown: false }}
     >
       <HomeStack.Screen name="Home" component={Home} />
+      {
+        //Pour ramener vers l'écran de connexion si nécessaire
+      }
       <HomeStack.Screen name="Connexion" component={Connexion} />
     </HomeStack.Navigator>
   );

@@ -3,6 +3,7 @@ import { View, Text, Image } from "react-native";
 import { teamCard } from "../theme/styles";
 
 const TeamCard = ({ level, name, pilots }) => {
+  //Couleurs des cartes selon leur niveau
   const levelToColor = {
     1: "#AAAAAA",
     2: "#81D3F8",
@@ -25,6 +26,7 @@ const TeamCard = ({ level, name, pilots }) => {
               width: "100%",
               height: "100%",
             }}
+            //Si un choix est fait, l'image est en chemin absolu alors que si aucun choix n'est fait, l'image est en chemin relatif
             source={{
               uri:
                 "https://media.formula1.com/content/dam/fom-website/teams/2023/" +

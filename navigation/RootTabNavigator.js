@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeStackNavigator from "./HomeStackNavigator";
 import CollectionStackNavigator from "./CollectionStackNavigator";
 import ShopStackNavigator from "./ShopStackNavigator";
@@ -40,7 +39,6 @@ const RootTabNavigator = () => {
             height: "8%",
             backgroundColor: "#2B2E42",
           },
-          // Hiding tab navigator header to show only stack header
           headerShown: false,
         })}
       >

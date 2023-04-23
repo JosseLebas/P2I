@@ -656,10 +656,79 @@ export const connexion = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  title : {
+  title: {
     fontWeight: "bold",
     color: "white",
     fontSize: 24,
     textAlign: "center",
-  }
+  },
+});
+
+export const collection = StyleSheet.create({
+  screenPopup: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  backButton: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "black",
+    opacity: 0.5,
+  },
+  popupUpgradeContainer: {
+    height: "25%",
+    width: "35%",
+    borderWidth: 2,
+    borderColor: "white",
+    backgroundColor: "#BCC2CA",
+    justifyContent: "space-around",
+    alignItems: "center",
+  },
+  upgradeButton: {
+    backgroundColor: "green",
+    marginTop: 12,
+    width: "80%",
+    height: "20%",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  popupUpgradeContainerTeams: {
+    height: "25%",
+    width: "50%",
+    borderWidth: 2,
+    borderColor: "white",
+    backgroundColor: "#BCC2CA",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  popupOpenPacks: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  popupOpenPackContainer: {
+    height: "70%",
+    width: "97%",
+    borderWidth: 2,
+    borderColor: "white",
+    backgroundColor: "#BCC2CA",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  openPackButton: {
+    height: "10%",
+    width: "50%",
+    backgroundColor: "#2B2E42",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 12,
+    marginBottom: 40,
+  },
 });

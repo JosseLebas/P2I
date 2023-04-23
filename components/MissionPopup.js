@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Text, TouchableOpacity, View, Image } from "react-native";
-import { missionPopup, card } from "../theme/styles";
+import { missionPopup } from "../theme/styles";
 
 const MissionPopup = ({
   missionTitle,

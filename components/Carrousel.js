@@ -7,16 +7,22 @@ import { giveRewards } from "../utils/functions";
 import { carrousel } from "../theme/styles";
 
 const Carrousel = ({ navigation }) => {
+  //Composants du carrousel
   const [items, setItems] = useState([]);
+  //Contient la date actuelle pour la comparer aux dates des grands prix pour trouver le prochain
   const [dateActuelle, setDateActuelle] = useState(new Date());
+  //Pour déterminer quel item on affiche en premier
   const [firstItem, setFirstItem] = useState(0);
+  //Pour déterminer quel GP est le prochain 
   let nextGPRound = 1;
+  //Pour récupérer le prochain grand prix
   recupNextGP().then((resultat) => {
     if (resultat != null) {
       nextGPRound = resultat.round;
     }
   });
 
+  //Pour récupérer l'ensemble des Grand Prix
   const recupCircuits = async () => {
     try {
       response = await getCircuits();
@@ -26,6 +32,7 @@ const Carrousel = ({ navigation }) => {
     }
   };
 
+  //Récupération des données
   useFocusEffect(
     React.useCallback(() => {
       async function fetchData() {
@@ -38,6 +45,7 @@ const Carrousel = ({ navigation }) => {
     }, [])
   );
 
+  //Actualiser les données si nécessaire
   useEffect(() => {
     const getPos = () => {
       for (let i = 0; i < items.length; i++) {
