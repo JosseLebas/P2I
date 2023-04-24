@@ -53,7 +53,7 @@ const Home = ({ navigation, route }) => {
         // Si l'utilisateur ouvre l'application pour la première fois, il n'aura aucune donnée. Si c'est le cas il sera renvoyé vers la page de Connexion
         async function verifConnexion() {
           await giveRewards();
-          //users = null;
+          //const users = null;
           if (users == null) {
             navigation.navigate("Connexion");
           }
