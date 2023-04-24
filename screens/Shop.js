@@ -105,15 +105,14 @@ const Shop = ({ navigation }) => {
         {
           //Pour permettre à l'utilisateur de quitter la popup en cliquant à côté
         }
-        <TouchableOpacity
-          onPress={async () => {
-            setShow(false);
-            setPackRewards(null);
-            await fetchData();
-          }}
-          style={shop.backButton}
-        />
         <View style={shop.modalContainer}>
+          <TouchableOpacity
+            onPress={async () => {
+              setShow(false);
+              await fetchData();
+            }}
+            style={shop.backButton}
+          />
           <View style={shop.popup}>
             <Text style={shop.title}>Achat réussi !</Text>
             <Text style={shop.message}>Merci pour votre achat.</Text>

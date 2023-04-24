@@ -203,7 +203,7 @@ const Collection = ({ navigation }) => {
             onPress={() => setModalUpgradeVisible(false)}
             style={collection.backButton}
           />
-          <View style={popupUpgradeContainerTeams}>
+          <View style={collection.popupUpgradeContainerTeams}>
             {item.level < 4 &&
             item.copies >= required[item.level - 1].copies &&
             user.money >= required[item.level - 1].price ? (
